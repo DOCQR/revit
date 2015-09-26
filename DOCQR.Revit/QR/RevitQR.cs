@@ -11,7 +11,7 @@ using Autodesk.Revit.Attributes;
 
 namespace DOCQR.Revit
 {
-    public class RevitQR : IExternalCommand
+    public class RevitQR
     {
 
         private static FilledRegionType solidFill;
