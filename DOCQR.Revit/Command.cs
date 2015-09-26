@@ -28,7 +28,7 @@ namespace DOCQR.Revit
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
 
-           /* try
+           try
             {
                 Transaction trans = new Transaction(doc, "QR");
                 trans.Start();
@@ -42,7 +42,7 @@ namespace DOCQR.Revit
             {
                 return Result.Failed;
             }
-            */
+            
 
             GetSheetViewInfo(doc);
 
@@ -121,10 +121,6 @@ namespace DOCQR.Revit
                 ViewPortLocation.Add(TempViewPortLocation);         // save all the location points
             }
         }     
-
-
-       
-
 
     }
 }
