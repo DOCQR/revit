@@ -33,7 +33,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="QRCoder">
       <HintPath>.\QRCoder.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2014\RevitAPI.dll</HintPath>
@@ -42,6 +42,9 @@
     <Reference Include="RevitAPIUI">
       <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2014\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Spectacles.RevitExporter">
+      <HintPath>.\Spectacles.RevitExporter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

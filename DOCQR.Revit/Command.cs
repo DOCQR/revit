@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Autodesk.Revit;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -15,12 +16,17 @@ namespace DOCQR.Revit
     public class Upload : IExternalCommand
     {
 
+        private UIApplication _uiApp;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            UIApplication uiApp = commandData.Application;
-            Document doc = uiApp.ActiveUIDocument.Document;
-            UIDocument uidoc = uiApp.ActiveUIDocument;
+            _uiApp = commandData.Application;
+            Document doc = _uiApp.ActiveUIDocument.Document;
+            UIDocument uidoc = _uiApp.ActiveUIDocument;
+
+            // take care of AppDomain load issues
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
 
             try
             {
@@ -42,10 +48,35 @@ namespace DOCQR.Revit
         }
 
 
+        System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            // if the request is coming from us
+            if ((args.RequestingAssembly != null) && (args.RequestingAssembly == this.GetType().Assembly))
+            {
+                if ((args.Name != null) && (args.Name.Contains(",")))  // ignore resources and such
+                {
+                    string asmName = args.Name.Split(',')[0];
+
+                    string targetFilename = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().Location, asmName + ".dll");
+
+                    _uiApp.Application.WriteJournalComment("Assembly Resolve issue. Looking for: " + args.Name, false);
+                    _uiApp.Application.WriteJournalComment("Looking for " + targetFilename, false);
+
+                    if (File.Exists(targetFilename))
+                    {
+                        _uiApp.Application.WriteJournalComment("Found, and loading...", false);
+                        return System.Reflection.Assembly.LoadFrom(targetFilename);
+                    }
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Get the project sheets and the views on the sheets
         /// </summary>
-        private void GetViews(Document doc)
+        private void GetSheetViewInfo(Document doc)
         {
             FilteredElementCollector col = new FilteredElementCollector(doc);
             List<Element> Elements = new List<Element>();
@@ -83,13 +114,11 @@ namespace DOCQR.Revit
                 ViewPortIDs.Add(TempViewPortIDs);                   // save all the ids
                 ViewPortLocation.Add(TempViewPortLocation);         // save all the location points
             }
-        }       // close function
+        }     
 
 
-        // view port id - element ID, guid
-        // view port location - xyz
-        // sheet id
+       
 
 
-    }       // close class
-}           // close namespace
+    }
+}

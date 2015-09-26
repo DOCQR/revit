@@ -6,3 +6,8 @@ C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.Prop
 C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csproj.GenerateResource.Cache
 C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.dll
 C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.pdb
+C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csprojResolveAssemblyReference.cache
+C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.Properties.Resources.resources
+C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csproj.GenerateResource.Cache
+C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.dll
+C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.pdb
