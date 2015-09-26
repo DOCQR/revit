@@ -42,8 +42,7 @@ namespace DOCQR.Revit
             QRCoder.QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
             QRCoder.QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(data, QRCoder.QRCodeGenerator.ECCLevel.M);
 
-            // Stepsize for QR Squares
-            double step = 1;
+
 
             
             if (qrCode.ModuleMatrix != null)
@@ -62,6 +61,14 @@ namespace DOCQR.Revit
 
                 var size = qrCode.ModuleMatrix.Count;
 
+                // XYZ Location
+                double locationX = placement.X;
+                double locationY = placement.Y;
+
+                // Stepsize for QR Squares
+                double step = 1;
+
+
                 for (int x = 0; x < size; x++)
                 {
                     for (int y = 0; y < size; y++)
@@ -69,15 +76,20 @@ namespace DOCQR.Revit
                         var module = qrCode.ModuleMatrix[y][x];
                         if (module)
                         {
-                            CurveLoop cl = new CurveLoop();
+                            CurveLoop curveLoop = new CurveLoop();
                             List<CurveLoop> list = new List<CurveLoop>();
 
-                            cl.Append(Line.CreateBound(new XYZ(x * step, y * step, 0.0), new XYZ((x + 1) * step, y * step, 0.0)));
-                            cl.Append(Line.CreateBound(new XYZ((x + 1) * step, y * step, 0.0), new XYZ((x + 1) * step, (y + 1) * step, 0.0)));
-                            cl.Append(Line.CreateBound(new XYZ((x + 1) * step, (y + 1) * step, 0.0), new XYZ(x * step, (y + 1) * step, 0.0)));
-                            cl.Append(Line.CreateBound(new XYZ(x * step, (y + 1) * step, 0.0), new XYZ(x * step, y * step, 0.0)));
+                            XYZ A = new XYZ(locationX + (x * step), locationY + (y * step), 0);
+                            XYZ B = new XYZ(locationX + ((x + 1) * step), locationY + (y * step), 0);
+                            XYZ C = new XYZ(locationX + ((x + 1) * step), locationY + ((y + 1) * step), 0);
+                            XYZ D = new XYZ(locationX + (x * step), locationY + ((y + 1) * step), 0);
 
-                            list.Add(cl);
+                            curveLoop.Append(Line.CreateBound(A, B));
+                            curveLoop.Append(Line.CreateBound(B, C));
+                            curveLoop.Append(Line.CreateBound(C, D));
+                            curveLoop.Append(Line.CreateBound(D, A));
+
+                            list.Add(curveLoop);
 
                             FilledRegion fr = FilledRegion.Create(doc, solidFill.Id, viewSheetId, list);
                             elementsForGrouping.Add(fr.Id);
