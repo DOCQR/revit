@@ -27,6 +27,12 @@ namespace DOCQR.Revit
             // take care of AppDomain load issues
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
+
+            Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
+            string tempFile = System.IO.Path.GetTempFileName();
+            cmd.ExportEntireView3D(doc.ActiveView, tempFile);
+
+
             //try
 
            // {
