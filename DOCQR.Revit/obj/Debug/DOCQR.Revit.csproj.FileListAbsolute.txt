@@ -1,0 +1,8 @@
+c:\users\mthumfart\documents\visual studio 2013\Projects\DOCQR.Revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csprojResolveAssemblyReference.cache
+C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csprojResolveAssemblyReference.cache
+C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\DOCQR.Revit.dll
+C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\DOCQR.Revit.pdb
+C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.Properties.Resources.resources
+C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csproj.GenerateResource.Cache
+C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.dll
+C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.pdb
