@@ -27,8 +27,8 @@ namespace DOCQR.Revit
             // take care of AppDomain load issues
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
+            try
 
-           try
             {
                 Transaction trans = new Transaction(doc, "QR");
                 trans.Start();
@@ -42,6 +42,7 @@ namespace DOCQR.Revit
             {
                 return Result.Failed;
             }
+
             
 
             GetSheetViewInfo(doc);
