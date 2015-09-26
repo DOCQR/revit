@@ -93,7 +93,7 @@ namespace DOCQR.Revit
             {
                 ViewSheet TempSheet = (ViewSheet)ele;           // convert element to view sheet
                 SheetInfo info = new SheetInfo(doc,TempSheet);
-                RevitQR QR = new RevitQR(doc, info);
+                RevitQR QR = new RevitQR(doc, info,true,"server");
                 Sheets.Add(info); 
             }
         }     

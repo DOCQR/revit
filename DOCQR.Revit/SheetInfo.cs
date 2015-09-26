@@ -31,7 +31,7 @@ namespace DOCQR.Revit
                     // TODO: REAL GUID!
                     Guid guid = Guid.NewGuid();
 
-                    ViewPorts.Add(new ViewPortInfo(v.Id, guid, vport.GetBoxCenter()));
+                    ViewPorts.Add(new ViewPortInfo(v.Id, guid, vport.GetBoxOutline().MinimumPoint));
                 }
             }
 
