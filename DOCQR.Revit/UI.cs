@@ -50,7 +50,7 @@ namespace DOCQR.Revit
 
             commandButton.SetContextualHelp(new ContextualHelp(ContextualHelpType.Url, "http://github.com/docqr"));
 
-
+            
 
             return Result.Succeeded;
         }
