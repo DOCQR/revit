@@ -67,6 +67,8 @@
     </Compile>
     <Compile Include="QR\RevitQR.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="ViewBox.cs" />
+    <Compile Include="ViewBoxFinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
