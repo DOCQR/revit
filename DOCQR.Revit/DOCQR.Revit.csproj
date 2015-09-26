@@ -33,7 +33,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="QRCoder">
       <HintPath>.\QRCoder.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
