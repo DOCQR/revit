@@ -14,39 +14,50 @@ namespace DOCQR.Revit
     public class RevitQR : IExternalCommand
     {
 
-        public RevitQR(Document doc, ViewSheet v)
-        {
+        private static FilledRegionType solidFill;
 
+        private static string URL;
+
+        public RevitQR(Document doc, XYZ placement, Guid ProjectModelId, ElementId ViewportId, ElementId viewSheetId)
+        {
+            // Get Filled Region
             FilteredElementCollector col = new FilteredElementCollector(doc);
             col.OfClass(typeof(Autodesk.Revit.DB.FilledRegionType));
 
-            FillPatternElement elem = FillPatternElement.GetFillPatternElementByName(doc, FillPatternTarget.Drafting, "Solid fill");
-            FilledRegionType frt = col.FirstElement() as FilledRegionType;
+            if (solidFill == null)
+            {
+                FillPatternElement elem = FillPatternElement.GetFillPatternElementByName(doc, FillPatternTarget.Drafting, "Solid fill");
+                solidFill = col.FirstElement() as FilledRegionType;
+                solidFill.Background = FilledRegionBackground.Opaque;
+                solidFill.FillPatternId = elem.Id;
+            }
 
-            frt.Background = FilledRegionBackground.Opaque;
-            frt.FillPatternId = elem.Id;
+            // Assemble URL
+            string data = String.Format("{0}/{1}/{2}", new object[] { URL, ProjectModelId.ToString(), ViewportId.IntegerValue.ToString() });
 
-            string data = "http://coredev.thorntontomasetti.com/" + v.SheetNumber;
+            // Assemble Group 
+            string groupname = String.Format("DOCQR-{0}", ViewportId.IntegerValue.ToString());
 
+            // Create a new QRCoder Tag
             QRCoder.QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
             QRCoder.QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(data, QRCoder.QRCodeGenerator.ECCLevel.M);
 
+            // Stepsize for QR Squares
             double step = 1;
 
-
+            
             if (qrCode.ModuleMatrix != null)
             {
+                // Delete existing Group
                 FilteredElementCollector grpsrc = new FilteredElementCollector(doc);
                 grpsrc.OfClass(typeof(Autodesk.Revit.DB.Group));
                 foreach (Autodesk.Revit.DB.Group grp in grpsrc.ToElements())
                 {
-                    if (grp.GroupType.Name == "QRTag-" + v.SheetNumber) doc.Delete(grp.Id);
+                    if (grp.GroupType.Name == groupname) doc.Delete(grp.Id);
                 }
 
 
-                List<ElementId> ems = new List<ElementId>();
-
-
+                List<ElementId> elementsForGrouping = new List<ElementId>();
 
 
                 var size = qrCode.ModuleMatrix.Count;
@@ -68,18 +79,16 @@ namespace DOCQR.Revit
 
                             list.Add(cl);
 
-                            FilledRegion fr = FilledRegion.Create(doc, frt.Id, v.Id, list);
-                            ems.Add(fr.Id);
+                            FilledRegion fr = FilledRegion.Create(doc, solidFill.Id, viewSheetId, list);
+                            elementsForGrouping.Add(fr.Id);
 
                         }
-
                     }
-
                 }
 
 
-                Group grpn = doc.Create.NewGroup(ems);
-                grpn.GroupType.Name = "QRTag-" + v.SheetNumber;
+                Group grpn = doc.Create.NewGroup(elementsForGrouping);
+                grpn.GroupType.Name = groupname;
             }
 
 
