@@ -11,6 +11,3 @@ C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.Propert
 C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csproj.GenerateResource.Cache
 C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.dll
 C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.pdb
-C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\QRCoder.dll
-C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\Spectacles.RevitExporter.dll
-C:\Users\mthumfart\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\Newtonsoft.Json.dll
