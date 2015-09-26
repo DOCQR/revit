@@ -20,8 +20,8 @@ namespace DOCQR.Revit
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             _uiApp = commandData.Application;
-            Document doc = uiApp.ActiveUIDocument.Document;
-            UIDocument uidoc = uiApp.ActiveUIDocument;
+            Document doc = _uiApp.ActiveUIDocument.Document;
+            UIDocument uidoc = _uiApp.ActiveUIDocument;
             
             // take care of AppDomain load issues
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
