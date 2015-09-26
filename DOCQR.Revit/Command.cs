@@ -51,7 +51,7 @@ namespace DOCQR.Revit
             // if the request is coming from us
             if ((args.RequestingAssembly != null) && (args.RequestingAssembly == this.GetType().Assembly))
             {
-                if ((args.Name != null) && (args.Name.Contains(","))  // ignore resources and such
+                if ((args.Name != null) && (args.Name.Contains(",")))  // ignore resources and such
                 {
                     string asmName = args.Name.Split(',')[0];
 
