@@ -28,7 +28,7 @@ namespace DOCQR.Revit
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
 
-            try
+           /* try
             {
                 Transaction trans = new Transaction(doc, "QR");
                 trans.Start();
@@ -42,6 +42,9 @@ namespace DOCQR.Revit
             {
                 return Result.Failed;
             }
+            */
+
+            GetSheetViewInfo(doc);
 
             return Result.Succeeded;
 
@@ -101,13 +104,16 @@ namespace DOCQR.Revit
                 // for each sheet extract each view port
                 foreach (View v in TempSheet.Views)
                 {
-                    Guid guid = new Guid(v.UniqueId);
-                    TempViewPortGuids.Add(guid);                    // get the view port guid
+                    if (v.ViewType == ViewType.AreaPlan || v.ViewType == ViewType.Elevation || v.ViewType == ViewType.FloorPlan || v.ViewType == ViewType.Section || v.ViewType == ViewType.ThreeD)
+                    {
+                        Guid guid = new Guid(v.UniqueId);
+                        TempViewPortGuids.Add(guid);                    // get the view port guid
 
-                    TempViewPortIDs.Add(v.Id);                      // get the view port id
+                        TempViewPortIDs.Add(v.Id);                      // get the view port id
 
-                    LocationPoint lp = (LocationPoint)v.Location;   // get the view port start point
-                    TempViewPortLocation.Add(lp.Point);
+                        LocationPoint lp = (LocationPoint)v.Location;   // get the view port start point
+                        TempViewPortLocation.Add(lp.Point);
+                    }
                 }
 
                 ViewPortGuids.Add(TempViewPortGuids);               // save all the guids
