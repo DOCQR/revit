@@ -8,7 +8,7 @@ using RestSharp;
 
 namespace DOCQR.Revit
 {
-    class DOCQRclient
+    public class DOCQRclient
     {
 
         private RestClient client;
