@@ -152,6 +152,7 @@ namespace DOCQR.Revit
             
             if (IsDummy)
             {
+                System.Threading.Thread.Sleep(5000);
                 return Guid.NewGuid().ToString();
             }
 

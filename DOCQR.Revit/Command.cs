@@ -112,7 +112,17 @@ namespace DOCQR.Revit
             }
             catch (Exception ex)
             {
-                TaskDialog.Show("Unexpected Error", ex.GetType().Name + ": " + ex.Message);
+                TaskDialog td = new TaskDialog("Unexpected Issue");
+                td.MainInstruction = ex.GetType().Name + ": " + ex.Message;
+                string expanded = "";
+                if (ex.InnerException != null)
+                {
+                    expanded += Environment.NewLine + "Inner: " + ex.InnerException.GetType().Name + ": " + ex.InnerException.Message;
+                }
+                expanded += Environment.NewLine + "Stack: " + ex.StackTrace;
+                td.ExpandedContent = expanded;
+                td.Show();
+                //TaskDialog.Show("Unexpected Error", ex.GetType().Name + ": " + ex.Message);
                 if ((trans != null) && (trans.HasStarted())) trans.RollBack();
                 return Result.Failed;
             }
