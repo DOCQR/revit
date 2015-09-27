@@ -27,8 +27,12 @@ namespace DOCQR.Revit
             // take care of AppDomain load issues
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
-            DOCQRclient client = new DOCQRclient(" web url ");
+
+            string WebURL = " fill me in "
+            DOCQRclient client = new DOCQRclient(WebURL);
             LogInFrm loginForm = new LogInFrm(client);
+
+
 
             if (loginForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -41,27 +45,35 @@ namespace DOCQR.Revit
                     // go through all the sheets and then views
                     // make a 3d view 
                     // save each 3d view json file
+                    foreach (SheetInfo sheet in sheets)
+                    {
+                        foreach (ViewPortInfo vpInfo in sheet.ViewPorts)
+                        {
+                            Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
+                            string tempFile = System.IO.Path.GetTempFileName();
+                            cmd.ExportView3D((View3D)doc.ActiveView, tempFile);
 
+                            vpInfo.docQRid = client.SendModelInfo(tempFile, ProjectSelectFrm.ProjectName, doc.Title);            // send the model and view info to the web server
+                        }
+                    }
 
+                    Transaction trans = new Transaction(doc, "QR");
+                    trans.Start();
 
-                    Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
-                    string tempFile = System.IO.Path.GetTempFileName();
-                    cmd.ExportView3D((View3D)doc.ActiveView, tempFile);
-                    
-                    // upload file to web
-                    // build qr 
-                    
+                    foreach (SheetInfo sheet in sheets)
+                    {
+                            RevitQR QR = new RevitQR(doc, sheet,true,WebURL);                                                   // create QR codes
+                    }
+                    trans.Commit();
+                    trans.Dispose();
+                                       
                 }
             }
 
             //try
 
             // {
-            Transaction trans = new Transaction(doc, "QR");
-            trans.Start();
-
-            trans.Commit();
-            trans.Dispose();
+           
             //}
             //catch (System.Exception ex)
             //{
@@ -118,7 +130,6 @@ namespace DOCQR.Revit
             {
                 ViewSheet TempSheet = (ViewSheet)ele;           // convert element to view sheet
                 SheetInfo info = new SheetInfo(doc, TempSheet);
-                //RevitQR QR = new RevitQR(doc, info,true,"server");
                 Sheets.Add(info);
             }
 
