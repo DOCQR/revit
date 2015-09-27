@@ -39,6 +39,11 @@ namespace DOCQR.Revit
                 }
             }
 
+            Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
+            string tempFile = System.IO.Path.GetTempFileName();
+            cmd.ExportEntireView3D((View3D)doc.ActiveView, tempFile);
+
+
             //try
 
             // {
@@ -104,9 +109,9 @@ namespace DOCQR.Revit
             foreach (Element ele in Elements)
             {
                 ViewSheet TempSheet = (ViewSheet)ele;           // convert element to view sheet
-                SheetInfo info = new SheetInfo(doc, TempSheet);
-                RevitQR QR = new RevitQR(doc, info);
-                Sheets.Add(info);
+                SheetInfo info = new SheetInfo(doc,TempSheet);
+                RevitQR QR = new RevitQR(doc, info,true,"server");
+                Sheets.Add(info); 
             }
         }
 

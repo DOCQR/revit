@@ -44,8 +44,9 @@
     <Reference Include="RevitAPIUI">
       <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2016\RevitAPIUI.dll</HintPath>
     </Reference>
-    <Reference Include="Spectacles.RevitExporter">
-      <HintPath>.\Spectacles.RevitExporter.dll</HintPath>
+    <Reference Include="Spectacles.RevitExporter, Version=0.1.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Spectacles.RevitExporter\src\Spectacles.RevitExporter\bin\Spectacles.RevitExporter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -83,6 +84,8 @@
     </Compile>
     <Compile Include="QR\RevitQR.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="ViewBox.cs" />
+    <Compile Include="ViewBoxFinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LogInFrm.resx">
