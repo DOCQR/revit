@@ -53,7 +53,7 @@ namespace DOCQR.Revit
                         {
                             Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
                             string tempFile = System.IO.Path.GetTempFileName();
-                            cmd.ExportView3D(vpInfo.view.GetMatching3DView(doc), tempFile);
+                            cmd.ExportEntireModel(vpInfo.view.GetMatching3DView(doc), tempFile);
 
                             vpInfo.docQRid = client.SendModelInfo(tempFile, ProjectSelectFrm.ProjectName, doc.Title);            // send the model and view info to the web server
                         }

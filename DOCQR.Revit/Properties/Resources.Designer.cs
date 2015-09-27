@@ -63,9 +63,9 @@ namespace DOCQR.Revit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap processor {
+        internal static System.Drawing.Bitmap docqr_logo_small {
             get {
-                object obj = ResourceManager.GetObject("processor", resourceCulture);
+                object obj = ResourceManager.GetObject("docqr_logo_small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

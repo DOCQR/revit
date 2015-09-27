@@ -43,7 +43,7 @@ namespace DOCQR.Revit
 
             PushButton commandButton = grevitPanel.AddItem(new PushButtonData("DOCQR", "DOCQR", path, "DOCQR.Revit.Upload")) as PushButton;
             commandButton.LargeImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                Properties.Resources.processor.GetHbitmap(),
+                Properties.Resources.docqr_logo_small.GetHbitmap(),
                 IntPtr.Zero,
                 System.Windows.Int32Rect.Empty,
                 BitmapSizeOptions.FromWidthAndHeight(32, 32));

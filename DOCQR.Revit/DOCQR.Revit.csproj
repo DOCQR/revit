@@ -105,11 +105,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DOCQR.Revit.addin" />
+    <None Include="Resources\docqr_logo_small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) "C:\ProgramData\Autodesk\Revit\Addins\2016\$(ProjectName).dll"
-copy $(ProjectDir)$(ProjectName).addin "C:\ProgramData\Autodesk\Revit\Addins\2016\$(ProjectName).addin"</PostBuildEvent>
+copy $(ProjectDir)$(ProjectName).addin "C:\ProgramData\Autodesk\Revit\Addins\2016\$(ProjectName).addin"
+copy C:\Users\mthumfart\Documents\GitHub\Spectacles.RevitExporter\src\Spectacles.RevitExporter\bin\Spectacles.RevitExporter.dll C:\ProgramData\Autodesk\Revit\Addins\2016\Spectacles.RevitExporter.dll</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

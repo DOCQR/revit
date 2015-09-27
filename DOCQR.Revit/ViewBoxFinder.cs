@@ -81,7 +81,21 @@ namespace DOCQR.Revit
             }
             view3d.SetOrientation(new ViewOrientation3D(myviewbox.EyePosition, myviewbox.DirectionUp, myviewbox.DirectionView));
 
+
+
+            foreach (Category cat in doc.Settings.Categories)
+            {
+                try
+                {
+                    if (cat.CategoryType == CategoryType.Model && cat.get_AllowsVisibilityControl(view3d))
+                        view3d.SetVisibility(cat, view.GetVisibility(cat));
+                }
+                catch (System.Exception e) { }
             
+            }
+
+
+            doc.Regenerate();
 
             return view3d;
             
