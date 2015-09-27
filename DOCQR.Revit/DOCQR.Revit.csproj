@@ -35,6 +35,9 @@
       <HintPath>.\QRCoder.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2016\RevitAPI.dll</HintPath>
     </Reference>
@@ -48,6 +51,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +60,19 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DOCQRclient.cs" />
+    <Compile Include="LogInFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogInFrm.Designer.cs">
+      <DependentUpon>LogInFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSelectFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectSelectFrm.Designer.cs">
+      <DependentUpon>ProjectSelectFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SheetInfo.cs" />
     <Compile Include="UI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,12 +85,19 @@
     <Compile Include="Command.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LogInFrm.resx">
+      <DependentUpon>LogInFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectSelectFrm.resx">
+      <DependentUpon>ProjectSelectFrm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\processor.png" />
   </ItemGroup>
   <ItemGroup>

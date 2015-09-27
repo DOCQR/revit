@@ -27,23 +27,35 @@ namespace DOCQR.Revit
             // take care of AppDomain load issues
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
+            DOCQRclient client = new DOCQRclient(" web url ");
+            LogInFrm loginForm = new LogInFrm(client);
+
+            if (loginForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ProjectSelectFrm ProjectSelectFrm = new ProjectSelectFrm(client);
+                if (ProjectSelectFrm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+
+                }
+            }
+
             //try
 
-           // {
-                Transaction trans = new Transaction(doc, "QR");
-                trans.Start();
+            // {
+            Transaction trans = new Transaction(doc, "QR");
+            trans.Start();
 
-                GetSheetViewInfo(doc);
+            GetSheetViewInfo(doc);
 
-                trans.Commit();
-                trans.Dispose();
+            trans.Commit();
+            trans.Dispose();
             //}
             //catch (System.Exception ex)
             //{
             //    return Result.Failed;
             //}
 
-                //doc.Regenerate();
+            //doc.Regenerate();
 
             return Result.Succeeded;
 
@@ -88,15 +100,15 @@ namespace DOCQR.Revit
             List<SheetInfo> Sheets = new List<SheetInfo>();                   // the list of sheet id's
 
 
-           
+
             foreach (Element ele in Elements)
             {
                 ViewSheet TempSheet = (ViewSheet)ele;           // convert element to view sheet
-                SheetInfo info = new SheetInfo(doc,TempSheet);
+                SheetInfo info = new SheetInfo(doc, TempSheet);
                 RevitQR QR = new RevitQR(doc, info);
-                Sheets.Add(info); 
+                Sheets.Add(info);
             }
-        }     
+        }
 
     }
 }
