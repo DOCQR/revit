@@ -1,10 +1,9 @@
 # docqr.revit
 
-docqr.github.io
 View Building Construction Docs Online via QR Codes
 
-Problem Statement:
-Demystiphy 2D!
+#Problem Statement:
+##Demystiphy 2D!
 
 BIM software such as Revit and Archicad have been designed to generate a 3D building model, to then produce 2D [paper] drawings.
 
