@@ -15,8 +15,10 @@ namespace DOCQR.Revit
         public XYZ P1 { get; set; }
         public XYZ P2 { get; set; }
         public Transform TransformationMatrix { get; set; }
-        public XYZ EyePoint { get; set; }
-        public XYZ EyeVector { get; set; }
+        public BoundingBoxXYZ bbox { get; set; }
+        public XYZ DirectionUp { get; set; }
+        public XYZ EyePosition { get; set; }
+        public XYZ DirectionView { get; set; }
         #endregion
     }
 }

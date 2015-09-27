@@ -63,15 +63,25 @@ namespace DOCQR.Revit
 
             view.Name = view.Name + " 3D temp view";
 
-            BoundingBoxXYZ boundingBoxXYZ = new BoundingBoxXYZ();
-
             ViewBox myviewbox = GetViewBox(view);
 
-            boundingBoxXYZ.Min = myviewbox.P1;
-            boundingBoxXYZ.Max = myviewbox.P2;
-            view3d.SetOrientation(new ViewOrientation3D(myviewbox.EyeVector,myviewbox.EyePoint,;
+            if (myviewbox.bbox == null)
+            {
+                BoundingBoxXYZ boundingBoxXYZ = new BoundingBoxXYZ();
 
-            view3d.SetSectionBox(boundingBoxXYZ);
+
+
+                boundingBoxXYZ.Min = myviewbox.P1;
+                boundingBoxXYZ.Max = myviewbox.P2;
+                view3d.SetSectionBox(boundingBoxXYZ);
+            }
+            else 
+            { 
+                view3d.SetSectionBox(myviewbox.bbox);
+            }
+            view3d.SetOrientation(new ViewOrientation3D(myviewbox.EyePosition, myviewbox.DirectionUp, myviewbox.DirectionView));
+
+            
 
             return view3d;
             
@@ -102,7 +112,7 @@ namespace DOCQR.Revit
         {
             System.Diagnostics.Debug.WriteLine("ViewPlan: " + vp.Id + " Outline: " + vp.Outline.Min.U + "," + vp.Outline.Min.V + " to " + vp.Outline.Max.U + "," + vp.Outline.Max.V);
             System.Diagnostics.Debug.WriteLine("ViewPlan Scale: " + vp.Scale);
-
+            
             
             XYZ tmp1 = vp.Origin.Add(new XYZ(vp.Outline.Min.U * (double)vp.Scale, vp.Outline.Min.V * (double)vp.Scale, 0));
             XYZ tmp2 = vp.Origin.Add(new XYZ(vp.Outline.Max.U * (double)vp.Scale, vp.Outline.Max.V * (double)vp.Scale, 0));
@@ -135,10 +145,12 @@ namespace DOCQR.Revit
                     box.P1 = new XYZ(box.P1.X, box.P1.Y, bottom.Elevation + pvr.GetOffset(PlanViewPlane.ViewDepthPlane));
                 }
             }
-
+            
             // set the transform
             box.TransformationMatrix = Transform.Identity;
-
+            box.DirectionUp = vp.UpDirection;
+            box.EyePosition = vp.Origin.Add(vp.ViewDirection.Multiply(10));
+            box.DirectionView = vp.ViewDirection.Negate();
             return box;
 
         }
@@ -152,9 +164,12 @@ namespace DOCQR.Revit
 
             box.P1 = vs.CropBox.Transform.OfPoint(vs.CropBox.Min);
             box.P2 = vs.CropBox.Transform.OfPoint(vs.CropBox.Max);
-
+            
             box.TransformationMatrix = vs.CropBox.Transform;
-
+            box.DirectionUp = vs.UpDirection;
+            box.EyePosition = vs.Origin.Add(vs.ViewDirection.Multiply(10));
+            box.DirectionView = vs.ViewDirection.Negate();
+            box.bbox = vs.CropBox;
             return box;
         }
         #endregion
