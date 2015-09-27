@@ -17,3 +17,12 @@ C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.Proj
 C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.Properties.Resources.resources
 C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csproj.GenerateResource.Cache
 C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.dll
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\DOCQR.Revit.dll
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\DOCQR.Revit.pdb
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\QRCoder.dll
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\RestSharp.dll
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\RevitAPI.dll
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\RevitAPIUI.dll
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\Newtonsoft.Json.dll
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\RestSharp.xml
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.pdb

@@ -10,6 +10,7 @@ using RestSharp;
 namespace DOCQR.Revit
 {
 
+
     /// <summary>
     /// this class creates a client to set up a communiation between the web server and the desktop applicatoin
     /// </summary>

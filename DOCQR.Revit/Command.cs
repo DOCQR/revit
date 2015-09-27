@@ -46,14 +46,13 @@ namespace DOCQR.Revit
 
                     Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
                     string tempFile = System.IO.Path.GetTempFileName();
-                    cmd.ExportEntireView3D((View3D)doc.ActiveView, tempFile);
-
+                    cmd.ExportView3D((View3D)doc.ActiveView, tempFile);
+                    
                     // upload file to web
                     // build qr 
                     
                 }
             }
-
 
             //try
 
