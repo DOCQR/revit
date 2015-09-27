@@ -86,6 +86,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="ViewBox.cs" />
     <Compile Include="ViewBoxFinder.cs" />
+    <Compile Include="ViewNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LogInFrm.resx">

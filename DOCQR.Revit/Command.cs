@@ -40,6 +40,9 @@ namespace DOCQR.Revit
                 if (ProjectSelectFrm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     List<SheetInfo> sheets = GetSheetViewInfo(doc);
+                    List<ElementId> ViewsToDelete = new List<ElementId>();
+                    ViewNames names = new ViewNames();
+                    client.GetModelID(ProjectSelectFrm.ProjectName, doc.Title);
 
                     Transaction trans = new Transaction(doc, "QR");
                     trans.Start();
@@ -53,18 +56,24 @@ namespace DOCQR.Revit
                         {
                             Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
                             string tempFile = System.IO.Path.GetTempFileName();
-                            cmd.ExportEntireModel(vpInfo.view.GetMatching3DView(doc), tempFile);
-
-                            vpInfo.docQRid = client.SendModelInfo(tempFile, ProjectSelectFrm.ProjectName, doc.Title);            // send the model and view info to the web server
+                            
+                            View3D temp3dView = vpInfo.view.GetMatching3DView(doc);
+                            cmd.ExportEntireModel(temp3dView, tempFile);
+                            ViewsToDelete.Add(temp3dView.Id);
+                            vpInfo.docQRid = client.SendModelInfo(tempFile);            // send the model and view info to the web server
+                            names.Views.Add(new ViewName() { Name = vpInfo.view.Name, ID = vpInfo.docQRid });
                         }
                     }
 
-
+                    client.SendViewInfo(names);
 
                     foreach (SheetInfo sheet in sheets)
                     {
                             RevitQR QR = new RevitQR(doc, sheet,true,WebURL);                                                   // create QR codes
                     }
+
+                    doc.Delete(ViewsToDelete);
+
                     trans.Commit();
                     trans.Dispose();
                                        

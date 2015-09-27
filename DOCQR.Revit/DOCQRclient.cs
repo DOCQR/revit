@@ -80,6 +80,37 @@ namespace DOCQR.Revit
         }
 
 
+        private string ModelID;
+
+        public string GetModelID(string projectId, string modelName)
+        {
+            RestRequest request = new RestRequest("", Method.POST);
+            request.AddHeader("user", UserEmail);
+            request.AddParameter("projectName", projectId);
+            request.AddParameter("modelName", modelName);
+
+            IRestResponse resp = client.Execute(request);
+
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+            throw new Exception("Unable to get Model ID");
+            if (resp.Content != null) this.ModelID = resp.Content;
+            return resp.Content;
+        }
+
+
+        public void SendViewInfo(DOCQR.Revit.ViewNames names)
+        {
+            RestRequest request = new RestRequest("/views", Method.POST);
+            request.AddHeader("user", UserEmail);
+            
+            request.AddParameter("modelName", ModelID);
+
+            request.AddParameter("viewnames", names);
+
+            if (client.Execute(request).StatusCode != System.Net.HttpStatusCode.OK) throw new
+            Exception("Unable to send View names");
+        }
+
         /// <summary>
         /// send the model information to the web server
         /// </summary>
@@ -87,7 +118,7 @@ namespace DOCQR.Revit
         /// <param name="projectName">Project Name</param>
         /// <param name="modelName">Model Name</param>
         /// <returns></returns>
-        public string SendModelInfo(string filePath, string projectName, string modelName)
+        public string SendModelInfo(string filePath)
         {
             // TODO: remove
             return Guid.NewGuid().ToString();
@@ -100,8 +131,8 @@ namespace DOCQR.Revit
                 RestRequest request = new RestRequest("/projects", Method.POST);        // GET URL FROM WEB SERVER
 
                 request.AddHeader("user", UserEmail);                                                                       // add parameters to send to web server
-                request.AddParameter("modelName", modelName);
-                request.AddParameter("projectName", projectName);
+                request.AddParameter("modelName", this.ModelID);
+                //request.AddParameter("projectName", projectName);
                 request.AddParameter("jsonFileName", filePath);
 
                 request.AddParameter("Content-Type", "application/stream");                                                 // stream the json file to the body 
