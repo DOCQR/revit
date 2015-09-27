@@ -49,6 +49,34 @@ namespace DOCQR.Revit
             }
             return boxes;
         }
+
+        public static View3D GetMatching3DView(this View view, Document doc)
+        {
+ 
+    ViewFamilyType viewFamilyType = (from v in new FilteredElementCollector(doc).
+                 OfClass(typeof(ViewFamilyType)).
+                 Cast<ViewFamilyType>()
+                 where v.ViewFamily == ViewFamily.ThreeDimensional
+                 select v).First();
+
+            View3D view3d = View3D.CreateIsometric(doc, viewFamilyType.Id);
+
+            view.Name = view.Name + " 3D temp view";
+
+            BoundingBoxXYZ boundingBoxXYZ = new BoundingBoxXYZ();
+
+            ViewBox myviewbox = GetViewBox(view);
+
+            boundingBoxXYZ.Min = myviewbox.P1;
+            boundingBoxXYZ.Max = myviewbox.P2;
+            view3d.SetOrientation(new ViewOrientation3D(myviewbox.EyeVector,myviewbox.EyePoint,;
+
+            view3d.SetSectionBox(boundingBoxXYZ);
+
+            return view3d;
+            
+        }
+
         public static ViewBox GetViewBox(View v)
         {
             if (v is ViewPlan)
@@ -59,7 +87,13 @@ namespace DOCQR.Revit
             {
                 return getSectionViewBox(v as ViewSection);
             }
+
             return null;
+
+
+
+
+
         }
         #endregion
 
