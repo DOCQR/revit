@@ -28,8 +28,9 @@ namespace DOCQR.Revit
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
 
-            string WebURL = " fill me in ";
+            string WebURL = "http://128.8.215.91";
             DOCQRclient client = new DOCQRclient(WebURL);
+            client.IsDummy = false;
             LogInFrm loginForm = new LogInFrm(client);
 
 
@@ -55,7 +56,7 @@ namespace DOCQR.Revit
                         foreach (ViewPortInfo vpInfo in sheet.ViewPorts)
                         {
                             Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
-                            string tempFile = System.IO.Path.GetTempFileName();
+                            string tempFile = System.IO.Path.Combine( System.IO.Path.GetTempPath(), doc.Title + vpInfo.view.Id + ".json" );
                             
                             View3D temp3dView = vpInfo.view.GetMatching3DView(doc);
                             cmd.ExportEntireModel(temp3dView, tempFile);
@@ -65,7 +66,7 @@ namespace DOCQR.Revit
                         }
                     }
 
-                    client.SendViewInfo(names);
+                    //client.SendViewInfo(names);
 
                     foreach (SheetInfo sheet in sheets)
                     {

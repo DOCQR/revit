@@ -11,6 +11,7 @@ namespace DOCQR.Revit
     {
         public ElementId sheetId;
         public List<ViewPortInfo> ViewPorts;
+        public ViewSheet sheet;
         
         public SheetInfo(Document doc, ViewSheet TempSheet)
         {
@@ -18,7 +19,7 @@ namespace DOCQR.Revit
 
 
             this.sheetId = TempSheet.Id;                     // extract sheet ID
-
+            this.sheet = TempSheet;
 
             // for each sheet extract each view port
             foreach (ElementId vid in TempSheet.GetAllViewports())
@@ -26,11 +27,11 @@ namespace DOCQR.Revit
                 Viewport vport = (Viewport)doc.GetElement(vid);
                 View v = (View)doc.GetElement(vport.ViewId);
 
-                if (v.ViewType == ViewType.AreaPlan || v.ViewType == ViewType.Elevation || v.ViewType == ViewType.FloorPlan || v.ViewType == ViewType.Section || v.ViewType == ViewType.ThreeD)
+                if (v.ViewType == ViewType.AreaPlan || v.ViewType == ViewType.EngineeringPlan || v.ViewType == ViewType.Elevation || v.ViewType == ViewType.FloorPlan || v.ViewType == ViewType.Section || v.ViewType == ViewType.ThreeD)
                 {
  
 
-                    ViewPorts.Add(new ViewPortInfo(v.Id, vport.GetBoxOutline().MinimumPoint, v));
+                    ViewPorts.Add(new ViewPortInfo(v.Id, vport.GetBoxOutline().MinimumPoint, v, vport));
                 }
             }
 
@@ -43,14 +44,16 @@ namespace DOCQR.Revit
  
         public XYZ location;
         public View view;
+        public Viewport vport;
         public string docQRid;              // this will hold the returned value from the web server
 
-        public ViewPortInfo(ElementId id, XYZ location, View v)
+        public ViewPortInfo(ElementId id, XYZ location, View v, Viewport vp)
         {
             this.id = id;
      
             this.location = location;
             this.view = v;
+            this.vport = vp;
         }
     }
 }

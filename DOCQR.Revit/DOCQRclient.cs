@@ -18,7 +18,10 @@ namespace DOCQR.Revit
     {
 
         private RestClient client;
-        private string UserEmail;
+        private Token _token;
+        private string _tokenString;
+
+        public bool IsDummy { get; set; }
 
         /// <summary>
         /// Create a new client
@@ -27,6 +30,7 @@ namespace DOCQR.Revit
         public DOCQRclient(string serverName)
         {
             client = new RestClient(serverName);
+            IsDummy = false;
         }
 
 
@@ -37,8 +41,13 @@ namespace DOCQR.Revit
         /// <param name="password">password log in</param>
         public void SignIn(string username, string password)
         {
-            RestRequest request = new RestRequest("/users/signin", Method.POST);            // set a new request posting
-            request.AddParameter("name", username);                                         // set request parameters
+            if (IsDummy)
+            {
+                _token = new Token() { _id = username.GetHashCode().ToString() };
+                return;
+            }
+            RestRequest request = new RestRequest("/user/signin", Method.POST);            // set a new request posting
+            request.AddParameter("email", username);                                         // set request parameters
             request.AddParameter("password", password);
 
             IRestResponse<Token> responce = client.Execute<Token>(request);                 // save the token information sent back from the web server
@@ -46,7 +55,9 @@ namespace DOCQR.Revit
 
             if (content == System.Net.HttpStatusCode.OK)                                    // if status code is OK
             {
-                UserEmail = responce.Data.email;                                            // save the return hashtag, in this case its the email address
+                _token = responce.Data;
+                _tokenString = responce.Content;
+                // save the return hashtag, in this case its the email address
             }
             else
             {
@@ -59,13 +70,19 @@ namespace DOCQR.Revit
         /// This method sends a request to the web server asking for the list of projects
         /// </summary>
         /// <returns></returns>
-        public List<string> GetProjects()
+        public List<Project> GetProjects()
         {
-            RestRequest request = new RestRequest("/projects", Method.GET);                         // set a new request getting information
-            request.AddHeader("email", UserEmail);                                                  // set parameters for the request
+            if (IsDummy)
+            {
+                return new List<Project>(new Project[] { new Project() { id = "1", name = "Project1"}, new Project() { id = "2",  name = "Project2"} , new Project() { id = "3", name = "Project3"} });
+            }
+            RestRequest request = new RestRequest("/projects/" + _token._id, Method.GET);                         // set a new request getting information
+            request.AddHeader("user", _tokenString);                                                  // set parameters for the request
 
 
-            IRestResponse<List<string>> responce = client.Execute<List<string>>(request);           // save the responce
+            var tmp = client.Execute(request);
+
+            IRestResponse<List<Project>> responce = client.Execute<List<Project>>(request);           // save the responce
             var content = responce.StatusCode;
 
             if (content == System.Net.HttpStatusCode.OK)                                            // if the responce was OK
@@ -84,8 +101,14 @@ namespace DOCQR.Revit
 
         public string GetModelID(string projectId, string modelName)
         {
+            if (IsDummy)
+            {
+                ModelID = "aaa";
+                return ModelID;
+            }
+
             RestRequest request = new RestRequest("", Method.POST);
-            request.AddHeader("user", UserEmail);
+            request.AddParameter("user", _token);
             request.AddParameter("projectName", projectId);
             request.AddParameter("modelName", modelName);
 
@@ -100,8 +123,12 @@ namespace DOCQR.Revit
 
         public void SendViewInfo(DOCQR.Revit.ViewNames names)
         {
+            if (IsDummy)
+            {
+                return;
+            }
             RestRequest request = new RestRequest("/views", Method.POST);
-            request.AddHeader("user", UserEmail);
+            request.AddParameter("user", _token);
             
             request.AddParameter("modelName", ModelID);
 
@@ -120,8 +147,11 @@ namespace DOCQR.Revit
         /// <returns></returns>
         public string SendModelInfo(string filePath)
         {
-            // TODO: remove
-            return Guid.NewGuid().ToString();
+            
+            if (IsDummy)
+            {
+                return Guid.NewGuid().ToString();
+            }
 
             FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);               // read the json file
             using (BinaryReader binaryReader = new BinaryReader(fileStream))
@@ -130,7 +160,7 @@ namespace DOCQR.Revit
                 byte[] jsonFile = binaryReader.ReadBytes((int)fileStream.Length);                                           // conver the file to byte array
                 RestRequest request = new RestRequest("/projects", Method.POST);        // GET URL FROM WEB SERVER
 
-                request.AddHeader("user", UserEmail);                                                                       // add parameters to send to web server
+                request.AddParameter("user", _token);                                                                       // add parameters to send to web server
                 request.AddParameter("modelName", this.ModelID);
                 //request.AddParameter("projectName", projectName);
                 request.AddParameter("jsonFileName", filePath);
@@ -159,10 +189,24 @@ namespace DOCQR.Revit
     /// </summary>
     public class Token
     {
-        public string email { get; set; }
-        public string name { get; set; }
-        public string expires { get; set; }
+        public string _id { get; set; }
+        public TokenLocal local { get; set; }
     }       // close class
 
+    public class TokenLocal
+    {
+        public string password { get; set; }
+        public string email { get; set; }
+    }
 
+    public class Project
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+
+        public override string ToString()
+        {
+            return name;
+        }
+    }
 }

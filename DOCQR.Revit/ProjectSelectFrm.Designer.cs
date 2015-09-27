@@ -77,6 +77,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(483, 124);
             this.Name = "ProjectSelectFrm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Select Project To Upload";
             this.Load += new System.EventHandler(this.ProjectSelectFrm_Load);
             this.ResumeLayout(false);

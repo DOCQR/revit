@@ -61,9 +61,14 @@ namespace DOCQR.Revit
             bmp.Save(tempfile);
             View sheet = (View)doc.GetElement(info.sheetId);
             Element imageElement = null;
-            XYZ location = new XYZ(vport.location.X + bmp.Width / 250, vport.location.Y - bmp.Height / 250, 0);
 
-            doc.Import(tempfile, new ImageImportOptions() { RefPoint = location }, sheet, out imageElement);
+            //XYZ location = new XYZ(vport.location.X + bmp.Width / 250, vport.location.Y - bmp.Height / 250, 0);
+            Outline labelOutline = vport.vport.GetLabelOutline();
+            XYZ labelCorner = new XYZ(info.sheet.Origin.X + (labelOutline.MinimumPoint.X), info.sheet.Origin.Y + labelOutline.MinimumPoint.Y, 0);
+            XYZ location = labelCorner.Add(new XYZ(0, -0.5/12.0, 0));
+
+            doc.Import(tempfile, new ImageImportOptions() { RefPoint = location, Placement = BoxPlacement.TopLeft }, sheet, out imageElement);
+            
             string n = imageElement.GetType().ToString();
 
         }

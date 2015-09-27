@@ -96,6 +96,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(300, 142);
             this.Name = "LogInFrm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sign In";
             this.ResumeLayout(false);
             this.PerformLayout();
