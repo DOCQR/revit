@@ -29,6 +29,7 @@ namespace DOCQR.Revit
             client = new RestClient(serverName);
         }
 
+
         /// <summary>
         /// This method facilitates user sign in 
         /// </summary>
@@ -52,6 +53,7 @@ namespace DOCQR.Revit
                 throw new Exception("Unable to login " + content);
             }
         }
+
 
         /// <summary>
         /// This method sends a request to the web server asking for the list of projects
@@ -78,7 +80,13 @@ namespace DOCQR.Revit
         }
 
 
-
+        /// <summary>
+        /// send the model information to the web server
+        /// </summary>
+        /// <param name="filePath">Full File Path</param>
+        /// <param name="projectName">Project Name</param>
+        /// <param name="modelName">Model Name</param>
+        /// <returns></returns>
         public string SendModelInfo(string filePath, string projectName, string modelName)
         {
 
