@@ -13,7 +13,7 @@ namespace DOCQR.Revit
     public partial class ProjectSelectFrm : Form
     {
 
-        public string ProjectName;
+        public Project SelectedProject;
         private DOCQRclient client;
 
         public ProjectSelectFrm(DOCQRclient Client)
@@ -26,12 +26,12 @@ namespace DOCQR.Revit
         {
             // TODO: Remove
             //this.comboBox1.Items.Add("A)");
-            this.comboBox1.DataSource = client.GetProjects();               // get info for drop down menu
+            this.comboBox1.DataSource = client.GetProjects().OrderBy( p => p.name).ToList();               // get info for drop down menu
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ProjectName = this.comboBox1.SelectedItem.ToString();
+            SelectedProject = this.comboBox1.SelectedItem as Project;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

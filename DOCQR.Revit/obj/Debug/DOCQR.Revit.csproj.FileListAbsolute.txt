@@ -154,3 +154,4 @@ C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\pt-BR\AdWindows.res
 C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\ru-RU\AdWindows.resources.dll
 C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\zh-CN\AdWindows.resources.dll
 C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\bin\Debug\zh-TW\AdWindows.resources.dll
+C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.ProgressForm.resources

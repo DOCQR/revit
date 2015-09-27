@@ -77,7 +77,10 @@ namespace DOCQR.Revit
                 return new List<Project>(new Project[] { new Project() { id = "1", name = "Project1"}, new Project() { id = "2",  name = "Project2"} , new Project() { id = "3", name = "Project3"} });
             }
             RestRequest request = new RestRequest("/projects/" + _token._id, Method.GET);                         // set a new request getting information
-            request.AddHeader("user", _tokenString);                                                  // set parameters for the request
+            //request.AddHeader("user", _tokenString);
+            request.Timeout = 1000 * 10; // set parameters for the request
+
+            request.AddParameter(new Parameter() { ContentType = "application/json", Name = "user", Type = ParameterType.HttpHeader, Value = _tokenString });
 
 
             var tmp = client.Execute(request);
@@ -99,7 +102,7 @@ namespace DOCQR.Revit
 
         private string ModelID;
 
-        public string GetModelID(string projectId, string modelName)
+        public string GetModelID(string projectId)
         {
             if (IsDummy)
             {
@@ -107,17 +110,16 @@ namespace DOCQR.Revit
                 return ModelID;
             }
 
-            RestRequest request = new RestRequest("", Method.POST);
+            RestRequest request = new RestRequest("/newModelID/" + projectId, Method.POST);
             request.AddParameter("user", _token);
-            request.AddParameter("projectName", projectId);
-            request.AddParameter("modelName", modelName);
+           
 
             IRestResponse resp = client.Execute(request);
 
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
             throw new Exception("Unable to get Model ID");
-            if (resp.Content != null) this.ModelID = resp.Content;
-            return resp.Content;
+            if (resp.Content != null) this.ModelID = resp.Content.TrimStart('"').TrimEnd('"');
+            return this.ModelID;
         }
 
 
@@ -145,7 +147,7 @@ namespace DOCQR.Revit
         /// <param name="projectName">Project Name</param>
         /// <param name="modelName">Model Name</param>
         /// <returns></returns>
-        public string SendModelInfo(string filePath)
+        public string SendModelInfo(Project proj, string filePath)
         {
             
             if (IsDummy)
@@ -153,19 +155,21 @@ namespace DOCQR.Revit
                 return Guid.NewGuid().ToString();
             }
 
-            FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);               // read the json file
-            using (BinaryReader binaryReader = new BinaryReader(fileStream))
+            //FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);               // read the json file
+            //using (BinaryReader binaryReader = new BinaryReader(fileStream))
             {
 
-                byte[] jsonFile = binaryReader.ReadBytes((int)fileStream.Length);                                           // conver the file to byte array
-                RestRequest request = new RestRequest("/projects", Method.POST);        // GET URL FROM WEB SERVER
+                byte[] jsonFile = File.ReadAllBytes(filePath); //binaryReader.ReadBytes((int)fileStream.Length);                                           // conver the file to byte array
+                RestRequest request = new RestRequest("/views/"+proj.id + "/" + ModelID, Method.POST);        // GET URL FROM WEB SERVER
 
-                request.AddParameter("user", _token);                                                                       // add parameters to send to web server
-                request.AddParameter("modelName", this.ModelID);
-                //request.AddParameter("projectName", projectName);
-                request.AddParameter("jsonFileName", filePath);
+                System.Diagnostics.Debug.WriteLine("Uploading file to DOCQR: " + jsonFile.Length + " bytes");
+                //request.AddParameter("user", _token);                                                                       // add parameters to send to web server
+                //request.AddParameter("modelName", this.ModelID);
+                ////request.AddParameter("projectName", projectName);
+                //request.AddParameter("jsonFileName", filePath);
 
                 request.AddParameter("Content-Type", "application/stream");                                                 // stream the json file to the body 
+                request.AddParameter("Content-Length", jsonFile.LongLength);
                 request.AddParameter("jsonFile", jsonFile, ParameterType.RequestBody);
                 request.Timeout = 1000 * 60 * 60;                                                                           // set up a time out 
 
@@ -173,11 +177,11 @@ namespace DOCQR.Revit
 
                 if (responce.StatusCode == System.Net.HttpStatusCode.OK)                                                    // if the responce was OK
                 {
-                    return responce.Content;                                                                                // return the data (list of project names)
+                    return responce.Content.TrimStart('"').TrimEnd('"');                                                                                // return the data (list of project names)
                 }
                 else
                 {
-                    throw new Exception("Unable to send model " + responce.Content);
+                    throw new Exception("Unable to send model " + responce.StatusCode, new Exception(responce.Content));
                 }
             }
         }
