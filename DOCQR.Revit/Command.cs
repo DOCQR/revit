@@ -28,7 +28,7 @@ namespace DOCQR.Revit
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
 
-            string WebURL = " fill me in "
+            string WebURL = " fill me in ";
             DOCQRclient client = new DOCQRclient(WebURL);
             LogInFrm loginForm = new LogInFrm(client);
 
@@ -41,6 +41,8 @@ namespace DOCQR.Revit
                 {
                     List<SheetInfo> sheets = GetSheetViewInfo(doc);
 
+                    Transaction trans = new Transaction(doc, "QR");
+                    trans.Start();
 
                     // go through all the sheets and then views
                     // make a 3d view 
@@ -51,14 +53,13 @@ namespace DOCQR.Revit
                         {
                             Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
                             string tempFile = System.IO.Path.GetTempFileName();
-                            cmd.ExportView3D((View3D)doc.ActiveView, tempFile);
+                            cmd.ExportView3D(vpInfo.view.GetMatching3DView(doc), tempFile);
 
                             vpInfo.docQRid = client.SendModelInfo(tempFile, ProjectSelectFrm.ProjectName, doc.Title);            // send the model and view info to the web server
                         }
                     }
 
-                    Transaction trans = new Transaction(doc, "QR");
-                    trans.Start();
+
 
                     foreach (SheetInfo sheet in sheets)
                     {

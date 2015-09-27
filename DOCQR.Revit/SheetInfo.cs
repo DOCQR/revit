@@ -28,10 +28,9 @@ namespace DOCQR.Revit
 
                 if (v.ViewType == ViewType.AreaPlan || v.ViewType == ViewType.Elevation || v.ViewType == ViewType.FloorPlan || v.ViewType == ViewType.Section || v.ViewType == ViewType.ThreeD)
                 {
-                    // TODO: REAL GUID!
-                    Guid guid = Guid.NewGuid();
+ 
 
-                    ViewPorts.Add(new ViewPortInfo(v.Id, guid, vport.GetBoxOutline().MinimumPoint, v));
+                    ViewPorts.Add(new ViewPortInfo(v.Id, vport.GetBoxOutline().MinimumPoint, v));
                 }
             }
 
@@ -41,15 +40,15 @@ namespace DOCQR.Revit
     public class ViewPortInfo
     {
         public ElementId id;
-        public Guid guid;
+ 
         public XYZ location;
         public View view;
         public string docQRid;              // this will hold the returned value from the web server
 
-        public ViewPortInfo(ElementId id, Guid guid, XYZ location, View v)
+        public ViewPortInfo(ElementId id, XYZ location, View v)
         {
             this.id = id;
-            this.guid = guid;
+     
             this.location = location;
             this.view = v;
         }

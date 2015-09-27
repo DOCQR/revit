@@ -89,6 +89,8 @@ namespace DOCQR.Revit
         /// <returns></returns>
         public string SendModelInfo(string filePath, string projectName, string modelName)
         {
+            // TODO: remove
+            return Guid.NewGuid().ToString();
 
             FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);               // read the json file
             using (BinaryReader binaryReader = new BinaryReader(fileStream))

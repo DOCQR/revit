@@ -24,7 +24,9 @@ namespace DOCQR.Revit
 
         private void ProjectSelectFrm_Load(object sender, EventArgs e)
         {
-            this.comboBox1.DataSource = client.GetProjects();               // get info for drop down menu
+            // TODO: Remove
+            this.comboBox1.Items.Add("A)");
+          //  this.comboBox1.DataSource = client.GetProjects();               // get info for drop down menu
         }
 
         private void button1_Click(object sender, EventArgs e)

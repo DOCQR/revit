@@ -61,7 +61,7 @@ namespace DOCQR.Revit
 
             View3D view3d = View3D.CreateIsometric(doc, viewFamilyType.Id);
 
-            view.Name = view.Name + " 3D temp view";
+            view3d.Name = view.Name + " 3D temp view";
 
             ViewBox myviewbox = GetViewBox(view);
 
@@ -132,7 +132,13 @@ namespace DOCQR.Revit
             {
                 PlanViewRange pvr = vp.GetViewRange();
                 ElementId topId = pvr.GetLevelId(PlanViewPlane.TopClipPlane);
+
                 ElementId bottomId = pvr.GetLevelId(PlanViewPlane.ViewDepthPlane);
+                if (bottomId.IntegerValue == -4)
+                    bottomId = pvr.GetLevelId(PlanViewPlane.BottomClipPlane);
+                if (bottomId.IntegerValue == -4)
+                    bottomId = pvr.GetLevelId(PlanViewPlane.UnderlayBottom);
+
                 if (topId != ElementId.InvalidElementId)
                 {
                     Level top = vp.Document.GetElement(topId) as Level;

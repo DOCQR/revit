@@ -37,7 +37,7 @@ namespace DOCQR.Revit
             foreach (ViewPortInfo vport in info.ViewPorts)
             {
                 // Assemble URL
-                data = String.Format("{0}/{1}/{2}", new object[] { URL, vport.guid.ToString(), vport.id.IntegerValue.ToString() });
+                data = String.Format("{0}/{1}", new object[] { URL, vport.docQRid });
 
                 // Assemble Group 
                 groupname = String.Format("DOCQR-{0}", vport.id.IntegerValue.ToString());

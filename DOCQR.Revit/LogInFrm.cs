@@ -26,6 +26,9 @@ namespace DOCQR.Revit
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // TODO: Remove
+            this.Close(); this.DialogResult = System.Windows.Forms.DialogResult.OK;  return;
+
            string username = textBox1.Text;                // get the user name and password from the user form
             string password = textBox2.Text;
 
