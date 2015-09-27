@@ -57,10 +57,13 @@ namespace DOCQR.Revit
             QRCoder.QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
             QRCoder.QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(data, QRCoder.QRCodeGenerator.ECCLevel.M);
             string tempfile = System.IO.Path.GetTempFileName() + ".QRTAG";
-            qrCode.GetGraphic(5).Save(tempfile);
+            System.Drawing.Bitmap bmp = qrCode.GetGraphic(5);
+            bmp.Save(tempfile);
             View sheet = (View)doc.GetElement(info.sheetId);
             Element imageElement = null;
-            doc.Import(tempfile, new ImageImportOptions() { RefPoint = vport.location }, sheet, out imageElement);
+            XYZ location = new XYZ(vport.location.X + bmp.Width / 250, vport.location.Y - bmp.Height / 250, 0);
+
+            doc.Import(tempfile, new ImageImportOptions() { RefPoint = location }, sheet, out imageElement);
             string n = imageElement.GetType().ToString();
 
         }

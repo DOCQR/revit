@@ -30,7 +30,7 @@ namespace DOCQR.Revit
 
             Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
             string tempFile = System.IO.Path.GetTempFileName();
-            cmd.ExportEntireView3D(doc.ActiveView, tempFile);
+            cmd.ExportEntireView3D((View3D)doc.ActiveView, tempFile);
 
 
             //try
