@@ -11,7 +11,7 @@ namespace DOCQR.Revit
     {
         public ElementId sheetId;
         public List<ViewPortInfo> ViewPorts;
-
+        
         public SheetInfo(Document doc, ViewSheet TempSheet)
         {
             this.ViewPorts = new List<ViewPortInfo>();
@@ -31,7 +31,7 @@ namespace DOCQR.Revit
                     // TODO: REAL GUID!
                     Guid guid = Guid.NewGuid();
 
-                    ViewPorts.Add(new ViewPortInfo(v.Id, guid, vport.GetBoxOutline().MinimumPoint));
+                    ViewPorts.Add(new ViewPortInfo(v.Id, guid, vport.GetBoxOutline().MinimumPoint, v));
                 }
             }
 
@@ -43,12 +43,15 @@ namespace DOCQR.Revit
         public ElementId id;
         public Guid guid;
         public XYZ location;
+        public View view;
+        public string docQRid;              // this will hold the returned value from the web server
 
-        public ViewPortInfo(ElementId id, Guid guid, XYZ location)
+        public ViewPortInfo(ElementId id, Guid guid, XYZ location, View v)
         {
             this.id = id;
             this.guid = guid;
             this.location = location;
+            this.view = v;
         }
     }
 }

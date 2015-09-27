@@ -35,13 +35,24 @@ namespace DOCQR.Revit
                 ProjectSelectFrm ProjectSelectFrm = new ProjectSelectFrm(client);
                 if (ProjectSelectFrm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    List<SheetInfo> sheets = GetSheetViewInfo(doc);
 
+
+                    // go through all the sheets and then views
+                    // make a 3d view 
+                    // save each 3d view json file
+
+
+
+                    Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
+                    string tempFile = System.IO.Path.GetTempFileName();
+                    cmd.ExportEntireView3D((View3D)doc.ActiveView, tempFile);
+
+                    // upload file to web
+                    // build qr 
+                    
                 }
             }
-
-            Spectacles.RevitExporter.Command cmd = new Spectacles.RevitExporter.Command();
-            string tempFile = System.IO.Path.GetTempFileName();
-            cmd.ExportEntireView3D((View3D)doc.ActiveView, tempFile);
 
 
             //try
@@ -49,8 +60,6 @@ namespace DOCQR.Revit
             // {
             Transaction trans = new Transaction(doc, "QR");
             trans.Start();
-
-            GetSheetViewInfo(doc);
 
             trans.Commit();
             trans.Dispose();
@@ -92,27 +101,29 @@ namespace DOCQR.Revit
             return null;
         }
 
+
         /// <summary>
         /// Get the project sheets and the views on the sheets
         /// </summary>
-        private void GetSheetViewInfo(Document doc)
+        /// <param name="doc"></param>
+        /// <returns>return the list of sheet information</returns>
+        private List<SheetInfo> GetSheetViewInfo(Document doc)
         {
             FilteredElementCollector col = new FilteredElementCollector(doc);
             List<Element> Elements = new List<Element>();
             Elements.AddRange(col.OfClass(typeof(ViewSheet)).ToElements());
 
-
             List<SheetInfo> Sheets = new List<SheetInfo>();                   // the list of sheet id's
-
-
 
             foreach (Element ele in Elements)
             {
                 ViewSheet TempSheet = (ViewSheet)ele;           // convert element to view sheet
-                SheetInfo info = new SheetInfo(doc,TempSheet);
-                RevitQR QR = new RevitQR(doc, info,true,"server");
-                Sheets.Add(info); 
+                SheetInfo info = new SheetInfo(doc, TempSheet);
+                //RevitQR QR = new RevitQR(doc, info,true,"server");
+                Sheets.Add(info);
             }
+
+            return Sheets;
         }
 
     }

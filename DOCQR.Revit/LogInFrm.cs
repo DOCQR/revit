@@ -26,10 +26,7 @@ namespace DOCQR.Revit
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // get the user name and the password
-            // if the text boxes are blank then show msg box
-
-            string username = textBox1.Text;                // get the user name and password from the user form
+           string username = textBox1.Text;                // get the user name and password from the user form
             string password = textBox2.Text;
 
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
@@ -38,15 +35,14 @@ namespace DOCQR.Revit
                 {
                     DClient.SignIn(username, password);
                     this.DialogResult = DialogResult.OK;
-                    this.Close();
                 }
                 catch( Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
+            this.Close();
         }
-
     }       // close class
     
 }           // close namespace

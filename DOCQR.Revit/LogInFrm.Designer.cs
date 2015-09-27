@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogInFrm));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -64,6 +65,7 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(78, 40);
             this.textBox2.Name = "textBox2";
+            this.textBox2.PasswordChar = '*';
             this.textBox2.Size = new System.Drawing.Size(194, 20);
             this.textBox2.TabIndex = 3;
             // 
@@ -88,7 +90,10 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(300, 142);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(300, 142);
             this.Name = "LogInFrm";
             this.Text = "Sign In";

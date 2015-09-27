@@ -11,3 +11,9 @@ C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.Propert
 C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csproj.GenerateResource.Cache
 C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.dll
 C:\Users\mmason\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.pdb
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csprojResolveAssemblyReference.cache
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.LogInFrm.resources
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.ProjectSelectFrm.resources
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.Properties.Resources.resources
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.csproj.GenerateResource.Cache
+C:\Users\cportelli\Documents\GitHub\revit\DOCQR.Revit\obj\Debug\DOCQR.Revit.dll
