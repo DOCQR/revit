@@ -35,14 +35,18 @@ namespace DOCQR.Revit
                 if (uidoc.ActiveGraphicalView.ViewType != ViewType.ThreeD) throw new ApplicationException("Please run this command from a 3D View!");
 
                 string WebURL = "http://128.8.215.91";
-                DOCQRclient client = new DOCQRclient(WebURL);
-                client.IsDummy = false;
-                LogInFrm loginForm = new LogInFrm(client);
+                //DOCQRclient client = new DOCQRclient(WebURL);
+                
+                LogInFrm loginForm = new LogInFrm(WebURL, false);
+             
 
 
 
                 if (loginForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    DOCQRclient client = loginForm.DClient;
+                    
+                    WebURL = client.Server;
                     ProjectSelectFrm ProjectSelectFrm = new ProjectSelectFrm(client);
                     if (ProjectSelectFrm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {

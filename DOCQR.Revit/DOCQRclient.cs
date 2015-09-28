@@ -22,6 +22,7 @@ namespace DOCQR.Revit
         private string _tokenString;
 
         public bool IsDummy { get; set; }
+        public string Server { get; set; }
 
         /// <summary>
         /// Create a new client
@@ -31,6 +32,7 @@ namespace DOCQR.Revit
         {
             client = new RestClient(serverName);
             IsDummy = false;
+            Server = serverName;
         }
 
 
